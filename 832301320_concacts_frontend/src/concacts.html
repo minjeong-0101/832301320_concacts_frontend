@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Manager</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>Contact Manager</h1>
+        
+        <!-- Add/Edit Contact Form -->
+        <div class="form-container">
+            <h2>{{ isEditing ? 'Edit Contact' : 'Add New Contact' }}</h2>
+            <form @submit.prevent="saveContact">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" v-model="currentContact.name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" v-model="currentContact.phone" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit">{{ isEditing ? 'Update' : 'Add' }}</button>
+                    <button type="button" @click="resetForm" v-if="isEditing">Cancel</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Contacts List -->
+        <div class="contacts-list">
+            <h2>Contacts</h2>
+            <div class="contact-item" v-for="contact in contacts" :key="contact.id">
+                <div class="contact-info">
+                    <h3>{{ contact.name }}</h3>
+                    <p>{{ contact.phone }}</p>
+                </div>
+                <div class="contact-actions">
+                    <button @click="editContact(contact)">Edit</button>
+                    <button @click="deleteContact(contact.id)">Delete</button>
+                </div>
+            </div>
+            <p v-if="contacts.length === 0" class="empty-message">No contacts yet. Add a new contact to get started.</p>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
+
